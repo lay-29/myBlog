@@ -5,9 +5,15 @@ import (
 	"fmt"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"net"
+	"sync"
 )
 
 const DBName = "app_blog"
+
+var (
+	instance *DBManager
+	once     sync.Once
+)
 
 type DBManager struct {
 	DB       *sql.DB
@@ -17,6 +23,12 @@ type DBManager struct {
 	Password string
 }
 
+func GetDBManager() *DBManager {
+	once.Do(func() {
+		instance = new(DBManager)
+	})
+	return instance
+}
 func (dbm *DBManager) Init() error {
 	dsn, _ := dbm.dsnString()
 	db, err := sql.Open("pgx", dsn)
@@ -26,7 +38,6 @@ func (dbm *DBManager) Init() error {
 	if err := db.Ping(); err != nil {
 		return fmt.Errorf("sql Open error:%v", err)
 	}
-
 	dbm.DB = db
 	return nil
 }

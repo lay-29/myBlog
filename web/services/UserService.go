@@ -51,7 +51,7 @@ func UserRegisterHandleFunc(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("User:\n\tName:", user.Name, "\n\tEmail:", user.Email)
 
 	if err := user.RegisterUser(); err != nil {
-		fmt.Println("UserRegisterHandleFunc: ", "StatusInternalServerError")
+		fmt.Println("UserRegisterHandleFunc: ", "StatusInternalServerError", err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
