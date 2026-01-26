@@ -12,6 +12,8 @@ func UserEntryHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("URL: ", r.URL)
 	fmt.Println("SubPath: ", subPath)
 	switch subPath {
+	case "all":
+		UserGetAllHandlerFunc(w, r)
 	case "login":
 		UserLoginHandleFunc(w, r)
 	case "logout":
@@ -19,6 +21,26 @@ func UserEntryHandler(w http.ResponseWriter, r *http.Request) {
 	case "register":
 		UserRegisterHandleFunc(w, r)
 	}
+}
+
+func UserGetAllHandlerFunc(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Func: ", "UserGetAllHandlerFunc", "Meth：", r.Method)
+
+	if r.Method != "GET" {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		fmt.Println("UserGetAllHandlerFunc: ", "StatusMethodNotAllowed")
+		return
+	}
+	users, err := models.GetAllUsers()
+	if err != nil {
+		fmt.Println("UserGetAllHandlerFunc Error:", err)
+	}
+	for _, user := range users {
+		fmt.Println(user)
+	}
+
+	w.WriteHeader(http.StatusOK)
+	writeJson(w, models.ApiResp{Code: 0, Msg: "ok", Data: users})
 }
 
 func UserRegisterHandleFunc(w http.ResponseWriter, r *http.Request) {

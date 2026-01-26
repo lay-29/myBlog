@@ -2,6 +2,7 @@ package models
 
 import (
 	"MyBlog/modules"
+	"fmt"
 )
 
 type User struct {
@@ -11,6 +12,31 @@ type User struct {
 	Email    string `json:"email"`
 }
 
+func GetAllUsers() ([]User, error) {
+	db := modules.GetDBManager().DB
+	query := `select id,name,password,email from users`
+	rows, err := db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	users := make([]User, 0)
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.ID, &user.Name, &user.Password, &user.Email)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return users, nil
+}
+func (u User) String() string {
+	return fmt.Sprintf("User{ID:%v, Name:%v, Email:%v }", u.ID, u.Name, u.Email)
+}
 func (u *User) RegisterUser() error {
 	db := modules.GetDBManager().DB
 	if err := InitUserTable(); err != nil {
