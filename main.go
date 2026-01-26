@@ -11,7 +11,10 @@ func main() {
 	appCfg := models.GetAppConfig()
 	if err := appCfg.LoadOrCreateConfig(".\\config.ini"); err != nil {
 		fmt.Println("init appCfg err:", err)
+	} else {
+		fmt.Println("init appCfg success:", appCfg)
 	}
+
 	dbm := modules.GetDBManager()
 	dbm.Username = models.GetAppConfig().DB.Username
 	dbm.Password = models.GetAppConfig().DB.Password

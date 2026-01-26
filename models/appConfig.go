@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"gopkg.in/ini.v1"
 	"os"
 	"sync"
@@ -43,4 +44,8 @@ func (appCfg *AppConfig) LoadOrCreateConfig(path string) error {
 	}
 	err = iniFile.MapTo(appCfg)
 	return err
+}
+
+func (appCfg *AppConfig) String() string {
+	return fmt.Sprintf("AppConfig: [DB.TcpAddr:%v DB.TcpPort:%v DB.Username:%v]", appCfg.DB.TcpAddr, appCfg.DB.TcpPort, appCfg.DB.Username)
 }
