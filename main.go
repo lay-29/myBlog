@@ -1,17 +1,22 @@
 package main
 
 import (
+	"MyBlog/models"
 	"MyBlog/modules"
 	"MyBlog/web/services"
 	"fmt"
 )
 
 func main() {
+	appCfg := models.GetAppConfig()
+	if err := appCfg.LoadOrCreateConfig(".\\config.ini"); err != nil {
+		fmt.Println("init appCfg err:", err)
+	}
 	dbm := modules.GetDBManager()
-	dbm.Username = "postgres"
-	dbm.Password = "lianzeyu29"
-	dbm.TcpAddr = "101.37.82.59"
-	dbm.TcpPort = "5432"
+	dbm.Username = models.GetAppConfig().DB.Username
+	dbm.Password = models.GetAppConfig().DB.Password
+	dbm.TcpAddr = models.GetAppConfig().DB.TcpAddr
+	dbm.TcpPort = models.GetAppConfig().DB.TcpPort
 
 	err := dbm.Init()
 	if err != nil {
