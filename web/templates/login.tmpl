@@ -1,0 +1,16 @@
+{{define "login.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="auth-page">
+  <section class="auth-card">
+    <h1>登录</h1>
+    {{template "flash" .}}
+    <form method="post" action="/user/login" class="stack-form">
+      <label>用户名或邮箱 <input name="login" autocomplete="username" required></label>
+      <label>密码 <input name="password" type="password" autocomplete="current-password" required></label>
+      <button class="primary" type="submit">登录</button>
+    </form>
+  </section>
+</main>
+{{template "foot" .}}
+{{end}}

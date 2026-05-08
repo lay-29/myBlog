@@ -1,0 +1,26 @@
+{{define "home.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="page">
+  <section class="page-title">
+    <div>
+      <p class="eyebrow">知识库与博客</p>
+      <h1>{{.AppName}}</h1>
+      <p class="muted">团队沉淀知识，公开文章进入博客时间线。</p>
+    </div>
+    {{if .User}}<a class="button" href="/teams">进入团队</a>{{else}}<a class="button" href="/user/login">登录发布</a>{{end}}
+  </section>
+  <section class="content-list">
+    {{range .Articles}}
+      <article class="item-card">
+        <a class="item-title" href="/articles/{{.ID}}">{{.Title}}</a>
+        <p>{{.Summary}}</p>
+        <div class="meta">{{formatTime .Published}}</div>
+      </article>
+    {{else}}
+      <div class="empty">还没有公开文章。</div>
+    {{end}}
+  </section>
+</main>
+{{template "foot" .}}
+{{end}}

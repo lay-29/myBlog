@@ -1,0 +1,28 @@
+{{define "search.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="page">
+  <section class="page-title compact">
+    <div>
+      <p class="eyebrow">全文检索</p>
+      <h1>搜索</h1>
+    </div>
+  </section>
+  <form method="get" action="/search" class="search-form">
+    <input name="q" value="{{.Query}}" autofocus>
+    <button class="primary" type="submit">搜索</button>
+  </form>
+  <section class="content-list">
+    {{range .Articles}}
+      <article class="item-card">
+        <a class="item-title" href="/articles/{{.ID}}">{{.Title}}</a>
+        <p>{{.Summary}}</p>
+        <div class="meta">{{.Visibility}} · {{formatTime .Updated}}</div>
+      </article>
+    {{else}}
+      {{if .Query}}<div class="empty">没有找到匹配内容。</div>{{end}}
+    {{end}}
+  </section>
+</main>
+{{template "foot" .}}
+{{end}}

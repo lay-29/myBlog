@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="68" height="68" viewBox="0 0 68 68" role="img" aria-labelledby="title desc">
+  <title id="title">MyBlog logo</title>
+  <desc id="desc">A square MyBlog knowledge base logo mark</desc>
+  <defs>
+    <linearGradient id="markGradient" x1="8" y1="6" x2="60" y2="62" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2b8a7e"/>
+      <stop offset="1" stop-color="#b7562b"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="56" height="56" rx="12" fill="url(#markGradient)"/>
+  <path d="M20 47V21h7.6L34 31.3 40.4 21H48v26h-6.4V32.1l-6 9.1h-3.2l-6-9.1V47H20Z" fill="#fff"/>
+  <path d="M51 18c-5.5 0-10 4.5-10 10h5c0-2.8 2.2-5 5-5v-5Z" fill="#f9f3ec"/>
+</svg>

@@ -1,0 +1,47 @@
+{{define "install.tmpl"}}
+{{template "head" .}}
+<main class="install-shell">
+  <section class="install-panel">
+    <div>
+      <p class="eyebrow">首次启动</p>
+      <h1>安装 {{.AppName}}</h1>
+      <p class="muted">配置站点、数据库和第一个管理员账号。安装成功后会写入 app.ini 并锁定安装流程。</p>
+    </div>
+    {{template "flash" .}}
+    <form method="post" action="/install" class="form-grid">
+      <fieldset>
+        <legend>站点</legend>
+        <label>站点名称 <input name="app_name" value="MyBlog" required></label>
+        <label>监听地址 <input name="http_addr" value="0.0.0.0" required></label>
+        <label>监听端口 <input name="http_port" value="3000" required></label>
+        <label>根地址 <input name="root_url" value="http://localhost:3000/" required></label>
+      </fieldset>
+      <fieldset>
+        <legend>数据库</legend>
+        <label>类型
+          <select name="db_type">
+            <option value="sqlite3">SQLite</option>
+            <option value="mysql">MySQL</option>
+            <option value="postgres">PostgreSQL</option>
+          </select>
+        </label>
+        <label>SQLite 路径 <input name="db_path" value="data/myblog.db"></label>
+        <label>主机 <input name="db_host" value="127.0.0.1"></label>
+        <label>端口 <input name="db_port" value="5432"></label>
+        <label>库名 <input name="db_name" value="myblog"></label>
+        <label>用户 <input name="db_user" value="myblog"></label>
+        <label>密码 <input name="db_password" type="password"></label>
+        <label>SSL 模式 <input name="db_ssl_mode" value="disable"></label>
+      </fieldset>
+      <fieldset>
+        <legend>管理员</legend>
+        <label>用户名 <input name="admin_name" required></label>
+        <label>邮箱 <input name="admin_email" type="email" required></label>
+        <label>密码 <input name="admin_password" type="password" minlength="8" required></label>
+      </fieldset>
+      <button class="primary" type="submit">完成安装</button>
+    </form>
+  </section>
+</main>
+{{template "foot" .}}
+{{end}}

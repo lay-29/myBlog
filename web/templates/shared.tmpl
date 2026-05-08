@@ -1,0 +1,91 @@
+{{define "head"}}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {{if .CSRF}}<meta name="csrf-token" content="{{.CSRF}}">{{end}}
+  <title>{{if .Title}}{{.Title}} · {{end}}{{.AppName}}</title>
+  <link rel="stylesheet" href="/assets/app.css">
+  <script defer src="/assets/app.js"></script>
+</head>
+<body data-theme="{{.Theme}}">
+{{end}}
+
+{{define "nav"}}
+<header class="topbar">
+  <div class="topbar-left">
+    <a class="brand" href="/" aria-label="{{.AppName}} 首页">
+      <img class="brand-logo" src="/assets/logo.svg" alt="{{.AppName}}">
+    </a>
+    <nav class="nav primary-nav">
+      {{if .User}}
+        <a href="/teams">工作台</a>
+        <a href="/user/articles/new">写博文</a>
+      {{end}}
+      <a href="/search">探索</a>
+    </nav>
+  </div>
+  <nav class="topbar-actions" aria-label="用户操作">
+    {{if .User}}
+      <details class="dropdown">
+        <summary class="icon-button" title="新建" aria-label="新建">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="chevron">▾</span>
+        </summary>
+        <div class="dropdown-menu create-menu">
+          <a href="/user/articles/new">新建博文</a>
+          <a href="/teams">团队管理</a>
+        </div>
+      </details>
+      <details class="dropdown user-dropdown">
+        <summary class="avatar-trigger" aria-label="打开用户菜单">
+          <span class="nav-avatar">
+            {{if .User.AvatarURL}}
+              <img src="{{.User.AvatarURL}}" alt="{{.User.Name}}">
+            {{else}}
+              <span>{{printf "%.1s" .User.Name}}</span>
+            {{end}}
+          </span>
+          <span class="chevron">▾</span>
+        </summary>
+        <div class="dropdown-menu user-menu">
+          <div class="dropdown-user">已登录用户 <strong>{{.User.Name}}</strong></div>
+          <a href="/users/{{.User.Name}}">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+            个人信息
+          </a>
+          <a href="/user/articles/new">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8-6.2-3.3L5.8 21 7 14.2 2 9.3l6.9-1L12 2Z"/></svg>
+            写博文
+          </a>
+          <a href="/user/settings">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5Z"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.6-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.6V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1a2 2 0 1 1 0 4H21a1.7 1.7 0 0 0-1.6 1Z"/></svg>
+            设置
+          </a>
+          <form method="post" action="/user/logout">
+            <input type="hidden" name="_csrf" value="{{.CSRF}}">
+            <button type="submit">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
+              退出
+            </button>
+          </form>
+        </div>
+      </details>
+    {{else}}
+      <a href="/user/login">登录</a>
+      <a href="/user/sign_up">注册</a>
+    {{end}}
+  </nav>
+</header>
+{{end}}
+
+{{define "flash"}}
+{{if .Message}}<div class="flash success">{{.Message}}</div>{{end}}
+{{if .Error}}<div class="flash error">{{.Error}}</div>{{end}}
+{{end}}
+
+{{define "foot"}}
+</body>
+</html>
+{{end}}

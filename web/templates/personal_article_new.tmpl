@@ -1,0 +1,48 @@
+{{define "personal_article_new.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="page">
+  <section class="page-title compact">
+    <div>
+      <p class="eyebrow">Personal Blog</p>
+      <h1>写博文</h1>
+      <p class="muted">个人博文会发布到你的个人主页；系统会自动创建并维护个人博客空间。</p>
+    </div>
+  </section>
+  {{template "flash" .}}
+  <form method="post" action="/user/articles/new" class="article-compose" data-editor-form>
+    <input type="hidden" name="_csrf" value="{{.CSRF}}">
+    <div class="compose-grid">
+      <section class="compose-main">
+        <label>标题
+          <input name="title" required>
+        </label>
+        <label>摘要
+          <textarea name="summary" rows="3"></textarea>
+        </label>
+        <div class="segmented" role="tablist">
+          <button type="button" data-editor-mode="markdown" class="active">Markdown</button>
+          <button type="button" data-editor-mode="rich">富文本</button>
+        </div>
+        <textarea name="content_markdown" id="markdown-editor" rows="18" class="editor-input"></textarea>
+        <div id="rich-editor" class="rich-editor" contenteditable="true" hidden></div>
+      </section>
+      <aside class="side-panel compose-side">
+        <h2>发布设置</h2>
+        <label>Slug
+          <input name="slug" placeholder="留空则自动生成">
+        </label>
+        <label>可见性
+          <select name="visibility">
+            <option value="public">公开</option>
+            <option value="team">登录可见</option>
+            <option value="private">仅自己</option>
+          </select>
+        </label>
+        <button class="primary" type="submit">发布博文</button>
+      </aside>
+    </div>
+  </form>
+</main>
+{{template "foot" .}}
+{{end}}

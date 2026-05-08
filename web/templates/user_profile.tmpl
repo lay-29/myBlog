@@ -1,0 +1,47 @@
+{{define "user_profile.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="page profile-page">
+  <section class="profile-header">
+    <div class="profile-avatar">
+      {{if .ProfileUser.AvatarURL}}
+        <img src="{{.ProfileUser.AvatarURL}}" alt="{{.ProfileUser.Name}}">
+      {{else}}
+        <span>{{printf "%.1s" .ProfileUser.Name}}</span>
+      {{end}}
+    </div>
+    <div class="profile-main">
+      <p class="eyebrow">个人主页</p>
+      <h1>{{if .ProfileUser.FullName}}{{.ProfileUser.FullName}}{{else}}{{.ProfileUser.Name}}{{end}}</h1>
+      <div class="meta">@{{.ProfileUser.Name}}{{if .ProfileUser.Location}} · {{.ProfileUser.Location}}{{end}}</div>
+      {{if .ProfileUser.Description}}<p class="profile-bio">{{.ProfileUser.Description}}</p>{{end}}
+      {{if .ProfileUser.Website}}<a href="{{.ProfileUser.Website}}" rel="nofollow noreferrer">个人网站</a>{{end}}
+    </div>
+    {{if and .User (eq .User.ID .ProfileUser.ID)}}
+      <div class="profile-actions">
+        <a class="button primary" href="/user/articles/new">写博文</a>
+        <a class="button" href="/user/settings">编辑资料</a>
+      </div>
+    {{end}}
+  </section>
+
+  <section class="content-list">
+    {{range .Articles}}
+      <article class="item-card">
+        <a class="item-title" href="/articles/{{.ID}}">{{.Title}}</a>
+        <p>{{.Summary}}</p>
+        <div class="meta">{{.Visibility}} · {{formatTime .Published}}</div>
+      </article>
+    {{else}}
+      <div class="empty">
+        {{if and .User (eq .User.ID .ProfileUser.ID)}}
+          你还没有发布个人博文。点击“写博文”开始第一篇。
+        {{else}}
+          这个用户还没有公开博文。
+        {{end}}
+      </div>
+    {{end}}
+  </section>
+</main>
+{{template "foot" .}}
+{{end}}

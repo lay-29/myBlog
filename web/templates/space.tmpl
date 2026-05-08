@@ -1,0 +1,52 @@
+{{define "space.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="page two-column wide">
+  <section>
+    <div class="page-title compact">
+      <div>
+        <p class="eyebrow">{{.Team.DisplayName}}</p>
+        <h1>{{.Space.DisplayName}}</h1>
+        <p class="muted">{{.Space.Description}}</p>
+      </div>
+    </div>
+    <div class="content-list">
+      {{range .Articles}}
+        <article class="item-card">
+          <a class="item-title" href="/articles/{{.ID}}">{{.Title}}</a>
+          <p>{{.Summary}}</p>
+          <div class="meta">{{.Visibility}} · {{formatTime .Updated}}</div>
+        </article>
+      {{else}}
+        <div class="empty">这个空间还没有文章。</div>
+      {{end}}
+    </div>
+  </section>
+  <aside class="side-panel editor-panel">
+    <h2>发布文章</h2>
+    <form id="create-article-form" class="stack-form">
+      <input type="hidden" name="team_id" value="{{.Team.ID}}">
+      <input type="hidden" name="space_id" value="{{.Space.ID}}">
+      <label>标题 <input name="title" required></label>
+      <label>Slug <input name="slug"></label>
+      <label>摘要 <textarea name="summary" rows="3"></textarea></label>
+      <div class="segmented" role="tablist">
+        <button type="button" data-editor-mode="markdown" class="active">Markdown</button>
+        <button type="button" data-editor-mode="rich">富文本</button>
+      </div>
+      <textarea name="content_markdown" id="markdown-editor" rows="12" class="editor-input"></textarea>
+      <div id="rich-editor" class="rich-editor" contenteditable="true" hidden></div>
+      <label>可见性
+        <select name="visibility">
+          <option value="team">团队内</option>
+          <option value="public">公开</option>
+          <option value="private">私有</option>
+        </select>
+      </label>
+      <label class="check-row"><input type="checkbox" name="is_blog" value="true"> 进入博客时间线</label>
+      <button class="primary" type="submit">发布</button>
+    </form>
+  </aside>
+</main>
+{{template "foot" .}}
+{{end}}

@@ -1,0 +1,13 @@
+{{define "article.tmpl"}}
+{{template "head" .}}
+{{template "nav" .}}
+<main class="article-page">
+  <article class="article-body">
+    <p class="eyebrow">{{.Article.Visibility}}</p>
+    <h1>{{.Article.Title}}</h1>
+    <div class="meta">{{formatTime .Article.Published}}</div>
+    <div class="markdown-body">{{.ArticleHTML}}</div>
+  </article>
+</main>
+{{template "foot" .}}
+{{end}}
